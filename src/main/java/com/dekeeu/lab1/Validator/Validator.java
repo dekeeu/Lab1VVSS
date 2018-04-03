@@ -35,7 +35,7 @@ public class Validator {
         }
         */
 
-        if(student.getGroup() > 999 || student.getGroup() < 1){
+        if(student.getGroup() > 900 || student.getGroup() < 100){
             return false;
         }
         return true;

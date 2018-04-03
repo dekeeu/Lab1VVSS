@@ -43,13 +43,13 @@ public class LaboratoriesControllerTest {
     @Test
     public void addStudentTest() throws RepositoryException {
         LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
-        Assert.assertTrue(ctrl.saveStudent(new Student("1888", "Coltuneac Alexandru", 933)));
+        Assert.assertTrue(ctrl.saveStudent(new Student("1888", "Coltuneac Alexandru", 733)));
     }
 
     @Test
     public void assignLaboratoryTest() throws ParseException, RepositoryException, IOException {
         LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
-        ctrl.saveStudent(new Student("1888", "Coltuneac Alexandru", 933));
+        ctrl.saveStudent(new Student("1888", "Coltuneac Alexandru", 733));
         Assert.assertTrue(ctrl.saveLaboratory(new Laboratory(1, "1/12/2019", 7, "1888")));
 
     }
@@ -57,7 +57,7 @@ public class LaboratoriesControllerTest {
     @Test
     public void gradeLaboratoryTest() throws RepositoryException, ParseException, IOException {
         LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
-        ctrl.saveStudent(new Student("1888", "Coltuneac Alexandru", 933));
+        ctrl.saveStudent(new Student("1888", "Coltuneac Alexandru", 733));
         ctrl.saveLaboratory(new Laboratory(1, "1/12/2019", 7, "1888"));
 
         Assert.assertTrue(ctrl.addGrade("1888", "1", 9.5f));
@@ -65,7 +65,7 @@ public class LaboratoriesControllerTest {
 
     @Test
     public void addStudentInvalidRegNumber() throws RepositoryException {
-        Student s = new Student("caie1888", "Coltuneac Alexandru", 933);
+        Student s = new Student("caie1888", "Coltuneac Alexandru", 733);
 
         LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
         Assert.assertFalse(ctrl.saveStudent(s));
@@ -73,7 +73,7 @@ public class LaboratoriesControllerTest {
 
     @Test
     public void addStudentInvalidName() throws RepositoryException {
-        Student s = new Student("1888", "Coltune32131 Alexand111!@#$%^&*()ru", 933);
+        Student s = new Student("1888", "Coltune32131 Alexand111!@#$%^&*()ru", 733);
 
         LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
         Assert.assertFalse(ctrl.saveStudent(s));
@@ -89,7 +89,7 @@ public class LaboratoriesControllerTest {
 
     @Test
     public void addStudentBlankRegNumber() throws RepositoryException {
-        Student s = new Student("", "Coltuneac Alexandru", 933);
+        Student s = new Student("", "Coltuneac Alexandru", 733);
 
         LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
         Assert.assertFalse(ctrl.saveStudent(s));
@@ -97,7 +97,87 @@ public class LaboratoriesControllerTest {
 
     @Test
     public void addStudentBlankName() throws RepositoryException {
-        Student s = new Student("1888", "", 933);
+        Student s = new Student("1888", "", 733);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertFalse(ctrl.saveStudent(s));
+    }
+
+    /*
+    BVA for regNumber
+     */
+
+    @Test
+    public void addStudentRegNumberLowBVA() throws RepositoryException {
+        Student s = new Student("0", "Coltuneac Alexandru", 733);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertFalse(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudentRegNumberLowBVA_2() throws RepositoryException {
+        Student s = new Student("1", "Coltuneac Alexandru", 733);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertTrue(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudentRegNumberLowBVA_3() throws RepositoryException {
+        Student s = new Student("2", "Coltuneac Alexandru", 733);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertTrue(ctrl.saveStudent(s));
+    }
+
+    /*
+    BVA for group
+     */
+
+    @Test
+    public void addStudentGroupLowBVA() throws RepositoryException {
+        Student s = new Student("1888", "Coltuneac Alexandru", 99);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertFalse(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudentGroupLowBVA_2() throws RepositoryException {
+        Student s = new Student("1888", "Coltuneac Alexandru", 100);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertTrue(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudentGroupLowBVA_3() throws RepositoryException {
+        Student s = new Student("1888", "Coltuneac Alexandru", 101);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertTrue(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudentGroupHighBVA() throws RepositoryException {
+        Student s = new Student("1888", "Coltuneac Alexandru", 899);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertTrue(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudentGroupHighBVA_2() throws RepositoryException {
+        Student s = new Student("1888", "Coltuneac Alexandru", 900);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertTrue(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudentGroupHighBVA_3() throws RepositoryException {
+        Student s = new Student("1888", "Coltuneac Alexandru", 901);
 
         LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
         Assert.assertFalse(ctrl.saveStudent(s));
