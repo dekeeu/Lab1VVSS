@@ -13,9 +13,19 @@ import java.util.Date;
 public class Validator {
     // incorrect if statement
     public static boolean validateStudent(Student student) {
+        /*
         if(!student.getRegNumber().matches("[a-zA-Z]{4}[\\d]{4}")){
             return false;
         }
+        */
+        if(!student.getRegNumber().matches("\\d+")){
+            return false;
+        }
+
+        if(Integer.valueOf(student.getRegNumber()) <= 0){
+            return false;
+        }
+
         if (!student.getName().matches("[a-zA-Z]+[\\s]?[a-zA-Z]+")) {
             return false;
         }
