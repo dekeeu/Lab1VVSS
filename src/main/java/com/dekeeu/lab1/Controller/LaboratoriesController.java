@@ -1,5 +1,6 @@
 package com.dekeeu.lab1.Controller;
 
+import com.dekeeu.lab1.Exception.RepositoryException;
 import com.dekeeu.lab1.Model.Laboratory;
 import com.dekeeu.lab1.Model.Student;
 import com.dekeeu.lab1.Repository.FileDataPersistence;
@@ -25,7 +26,7 @@ public class LaboratoriesController {
 
     // Exception should be thrown ?
     // Here should be checked if 2 students have the same Identificatio Number
-    public boolean saveStudent(Student student){
+    public boolean saveStudent(Student student) throws RepositoryException {
         if(Validator.validateStudent(student)){
             this.studentPersistence.saveStudent(student);
             return true;
@@ -35,7 +36,7 @@ public class LaboratoriesController {
     }
 
     // Exception should be thrown ?
-    public boolean saveLaboratory(Laboratory laboratory) {
+    public boolean saveLaboratory(Laboratory laboratory) throws RepositoryException {
         if (Validator.validateLaboratory(laboratory)) {
             this.laboratoryPersistence.saveLaboratory(laboratory);
             return true;
@@ -45,9 +46,9 @@ public class LaboratoriesController {
     }
 
     // Ambigous "student" parameter
-    public boolean addGrade(String student, String labNumber, float grade) throws NumberFormatException, IOException, ParseException{
+    public boolean addGrade(String studentIdentificationNumber, String labNumber, float grade) throws NumberFormatException, IOException, ParseException{
         if(Validator.validateGrade(grade)){
-            this.laboratoryPersistence.addGrade(student, labNumber, grade);
+            this.laboratoryPersistence.addGrade(studentIdentificationNumber, labNumber, grade);
             return true;
         }else{
             return false;
@@ -71,7 +72,8 @@ public class LaboratoriesController {
                 midGrade = (midGrade + laboratory.getGrade()) / 2;
             }
 
-            System.out.println(midGrade); // should not be here
+            //System.out.println(midGrade); // should not be here
+
             if(midGrade >= 5){
                 Student student = new Student();
 
@@ -86,4 +88,5 @@ public class LaboratoriesController {
         return passedStudents;
 
     }
+
 }

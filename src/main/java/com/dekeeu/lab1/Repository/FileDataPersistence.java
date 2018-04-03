@@ -1,5 +1,6 @@
 package com.dekeeu.lab1.Repository;
 
+import com.dekeeu.lab1.Exception.RepositoryException;
 import com.dekeeu.lab1.Model.Laboratory;
 import com.dekeeu.lab1.Model.Student;
 
@@ -33,7 +34,31 @@ public class FileDataPersistence {
 
     // no check if student is unique
 
-    public void saveStudent(Student student){
+    public void saveStudent(Student student) throws RepositoryException {
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            List<Student> students = new ArrayList<>();
+            String line;
+
+            while((line = reader.readLine()) != null){
+                String[] studentDetails = line.split(" ");
+                // mvmk2412 ion vasile 935
+                String studentID = studentDetails[0];
+                String studentFirstname = studentDetails[1];
+                String studentLastname = studentDetails[2];
+                String studentGroup = studentDetails[3];
+
+                Student s = new Student(studentID, studentFirstname + " " + studentLastname, Integer.parseInt(studentGroup));
+                students.add(s);
+            }
+
+            if(students.contains(student)){
+                throw new RepositoryException("Duplicate Student ");
+            }
+        }catch (IOException e){
+            System.out.println(e.toString());
+        }
+
         try{
             BufferedWriter writer;
             writer = new BufferedWriter(new FileWriter(file, true));
@@ -46,7 +71,23 @@ public class FileDataPersistence {
 
     // No check if laboratory is unique
 
-    public void saveLaboratory(Laboratory laboratory){
+    public void saveLaboratory(Laboratory laboratory) throws RepositoryException {
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            List<Laboratory> laboratories = new ArrayList<>();
+            String line;
+
+            while((line = reader.readLine()) != null){
+
+            }
+
+            if(laboratories.contains(laboratory)){
+                throw new RepositoryException("Duplicate Laboratory ");
+            }
+        }catch (IOException e){
+            System.out.println(e.toString());
+        }
+
         try{
             BufferedWriter writer;
             writer = new BufferedWriter(new FileWriter(file, true));

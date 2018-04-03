@@ -1,6 +1,7 @@
 package com.dekeeu.lab1.UI;
 
 import com.dekeeu.lab1.Controller.LaboratoriesController;
+import com.dekeeu.lab1.Exception.RepositoryException;
 import com.dekeeu.lab1.Model.Laboratory;
 import com.dekeeu.lab1.Model.Student;
 
@@ -46,7 +47,12 @@ public class LaboratoriesUI {
                 }
 
                 Student student = new Student(registrationNumber, name, group);
-                Boolean success = controller.saveStudent(student);
+                Boolean success = null;
+                try {
+                    success = controller.saveStudent(student);
+                } catch (RepositoryException e) {
+                    e.printStackTrace();
+                }
                 if (!success) {
                     System.out.println("Invalid student");
                 }
@@ -79,7 +85,12 @@ public class LaboratoriesUI {
                     System.out.println("Invalid input");
                     continue;
                 }
-                Boolean success = controller.saveLaboratory(lab);
+                Boolean success = null;
+                try {
+                    success = controller.saveLaboratory(lab);
+                } catch (RepositoryException e) {
+                    e.printStackTrace();
+                }
                 if (!success) {
                     System.out.println("Cannot save laboratory");
                 }
