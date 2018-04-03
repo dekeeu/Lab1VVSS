@@ -1,4 +1,4 @@
-package com.dekeeu.lab1.Controller;
+package Controller;
 
 /**
  * Created by dekeeu on 03/04/2018.
