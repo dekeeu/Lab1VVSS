@@ -245,7 +245,7 @@ public class LaboratoriesControllerTest {
     @Test
     public void addStudent_WBT_ValidGrade() throws RepositoryException, ParseException, IOException {
         Student s = new Student("1888", "Coltuneac Alexandru", 899);
-        Laboratory l = new Laboratory(15, "12/02/2019", 1, "1888");
+        Laboratory l = new Laboratory(13, "12/02/2019", 1, "1888");
 
         LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
         Assert.assertFalse(ctrl.addGrade("1888", "1", 15));
