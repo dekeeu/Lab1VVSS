@@ -3,13 +3,11 @@ package com.dekeeu.lab1.Repository;
 import com.dekeeu.lab1.Exception.RepositoryException;
 import com.dekeeu.lab1.Model.Laboratory;
 import com.dekeeu.lab1.Model.Student;
+import com.dekeeu.lab1.Validator.Validator;
 
 import java.io.*;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dekeeu on 13/03/2018.
@@ -42,7 +40,6 @@ public class FileDataPersistence {
 
             while((line = reader.readLine()) != null){
                 String[] studentDetails = line.split(" ");
-                // mvmk2412 ion vasile 935
                 String studentID = studentDetails[0];
                 String studentFirstname = studentDetails[1];
                 String studentLastname = studentDetails[2];
@@ -52,9 +49,12 @@ public class FileDataPersistence {
                 students.add(s);
             }
 
-            if(students.contains(student)){
-                throw new RepositoryException("Duplicate Student ");
+            for(Student ss : students){
+                if(ss.getRegNumber().equals(student.getRegNumber())){
+                    throw new RepositoryException("Duplicate Student ");
+                }
             }
+
         }catch (IOException e){
             System.out.println(e.toString());
         }
@@ -71,18 +71,31 @@ public class FileDataPersistence {
 
     // No check if laboratory is unique
 
-    public void saveLaboratory(Laboratory laboratory) throws RepositoryException {
+    public void saveLaboratory(Laboratory laboratory) throws RepositoryException, ParseException {
         try{
             BufferedReader reader = new BufferedReader(new FileReader(file));
             List<Laboratory> laboratories = new ArrayList<>();
             String line;
 
             while((line = reader.readLine()) != null){
-
+                String[] temp = line.split(" ");
+                Laboratory lab = new Laboratory(
+                        Integer.valueOf(temp[0]),
+                        temp[1],
+                        Integer.valueOf(temp[2]),
+                        Float.valueOf(temp[3]),
+                        temp[4]
+                );
+                laboratories.add(lab);
             }
 
-            if(laboratories.contains(laboratory)){
-                throw new RepositoryException("Duplicate Laboratory ");
+
+            for(Laboratory l : laboratories){
+                if(laboratory.getStudentRegNumber().equals(l.getStudentRegNumber())
+                        && laboratory.getNumber() == l.getNumber()
+                        ){
+                    throw new RepositoryException("Duplicate Laboratory");
+                }
             }
         }catch (IOException e){
             System.out.println(e.toString());
@@ -135,7 +148,7 @@ public class FileDataPersistence {
     public Map<String, List<Laboratory>> getLaboratoryMap() throws NumberFormatException, IOException, ParseException{
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
-        Map<String, List<Laboratory>> laboratoryMap = new HashMap<>();
+        Map<String, List<Laboratory>> laboratoryMap = new HashMap<>(); // map student --> laboratories
         String line;
 
         while((line = reader.readLine()) != null){
@@ -148,12 +161,14 @@ public class FileDataPersistence {
                     temp[4]
             );
 
-            if(laboratoryMap.get(laboratory.getStudentRegNumber()) == null){
-                List<Laboratory> laboratoryList = new ArrayList<>();
-                laboratoryList.add(laboratory);
-                laboratoryMap.put(laboratory.getStudentRegNumber(), laboratoryList);
-            }else{
-                laboratoryMap.get(laboratory.getStudentRegNumber()).add(laboratory);
+            if(Validator.validateLaboratory(laboratory)) {
+                if (laboratoryMap.get(laboratory.getStudentRegNumber()) == null) {
+                    List<Laboratory> laboratoryList = new ArrayList<>();
+                    laboratoryList.add(laboratory);
+                    laboratoryMap.put(laboratory.getStudentRegNumber(), laboratoryList);
+                } else {
+                    laboratoryMap.get(laboratory.getStudentRegNumber()).add(laboratory);
+                }
             }
 
         }
@@ -177,7 +192,9 @@ public class FileDataPersistence {
                     Integer.valueOf(temp[3])
             );
 
-            allStudentsList.add(student);
+            if(Validator.validateStudent(student)) {
+                allStudentsList.add(student);
+            }
 
         }
 

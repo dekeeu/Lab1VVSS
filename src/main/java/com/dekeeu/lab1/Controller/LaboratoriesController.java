@@ -28,7 +28,11 @@ public class LaboratoriesController {
     // Here should be checked if 2 students have the same Identificatio Number
     public boolean saveStudent(Student student) throws RepositoryException {
         if(Validator.validateStudent(student)){
-            this.studentPersistence.saveStudent(student);
+            try{
+                this.studentPersistence.saveStudent(student);
+            }catch (RepositoryException re){
+                return false;
+            }
             return true;
         }else{
             return false;
@@ -38,7 +42,13 @@ public class LaboratoriesController {
     // Exception should be thrown ?
     public boolean saveLaboratory(Laboratory laboratory) throws RepositoryException {
         if (Validator.validateLaboratory(laboratory)) {
-            this.laboratoryPersistence.saveLaboratory(laboratory);
+            try {
+                this.laboratoryPersistence.saveLaboratory(laboratory);
+            }catch (RepositoryException re){
+                return false;
+            }catch(ParseException pe){
+                return false;
+            }
             return true;
         } else {
             return false;

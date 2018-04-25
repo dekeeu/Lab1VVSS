@@ -183,4 +183,61 @@ public class LaboratoriesControllerTest {
         Assert.assertFalse(ctrl.saveStudent(s));
     }
 
+    /*
+    WBT
+     */
+
+    @Test
+    public void addStudent_WBT_validRegNumber() throws RepositoryException{
+        Student s = new Student("dqwndqw()(*&^%$#@!<>'", "Coltuneac Alexandru", 899);
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertFalse(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudent_WBT_validName() throws RepositoryException{
+        Student s = new Student("1888", "Coltuneac Alexandru !@#$%^&*()[];''?<>", 899);
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertFalse(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudent_WBT_ValidGroup() throws RepositoryException{
+        Student s = new Student("1888", "Coltuneac Alexandru !@#$%^&*()[];''?<>", 899);
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        Assert.assertFalse(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addStudent_WBT_ExistingID() throws RepositoryException{
+        Student s = new Student("1888", "Coltuneac Alexandru", 899);
+        Student s2 = new Student("1888", "Coltuneac AlexandruCopy", 899);
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+        ctrl.saveStudent(s2);
+
+        Assert.assertFalse(ctrl.saveStudent(s));
+    }
+
+    @Test
+    public void addLaboratory_WBT_ExistingID() throws RepositoryException, ParseException {
+        Student s = new Student("1888", "Coltuneac Alexandru", 899);
+        Laboratory l = new Laboratory(1, "12/02/2019", 1, "1888");
+        Laboratory l2 = new Laboratory(1, "12/02/2019", 5, "1888");
+
+        LaboratoriesController ctrl = new LaboratoriesController("students_test", "laboratories_test");
+
+        ctrl.saveLaboratory(l);
+
+        Assert.assertFalse(ctrl.saveLaboratory(l2));
+    }
+
+
+
+
+
+
+
+
+
 }

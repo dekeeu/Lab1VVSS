@@ -18,7 +18,7 @@ public class Validator {
             return false;
         }
         */
-        if(!student.getRegNumber().matches("\\d+")){
+        if(!student.getRegNumber().matches("^\\d+$")){
             return false;
         }
 
@@ -26,7 +26,7 @@ public class Validator {
             return false;
         }
 
-        if (!student.getName().matches("[a-zA-Z]+[\\s]?[a-zA-Z]+")) {
+        if (!student.getName().matches("^[a-zA-Z]+[\\s]?[a-zA-Z]+$")) {
             return false;
         }
         /*
