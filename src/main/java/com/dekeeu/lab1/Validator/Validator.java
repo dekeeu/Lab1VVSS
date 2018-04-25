@@ -42,7 +42,7 @@ public class Validator {
     }
 
     public static boolean validateLaboratory(Laboratory laboratory) {
-        if(laboratory.getNumber() < 1) {
+        if(laboratory.getNumber() < 1 || laboratory.getNumber() > 14) {
             return false;
         }
         if(laboratory.getProblemNumber() > 10 || laboratory.getProblemNumber() < 1) {
